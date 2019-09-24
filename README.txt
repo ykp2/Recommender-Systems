@@ -1,0 +1,1 @@
+﻿This repo contains Python codes needed for the implementation of Recommendor Systems. All credit for the codes goes to Frank Cane, who is the instructor for 'Building Recommendor Systems with Machine Learning and AI' on Udemy, a highly practical and applied course useful in understanding many important concepts in the field.
