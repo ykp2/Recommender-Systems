@@ -1,9 +1,12 @@
 import itertools
-
 from surprise import accuracy
 from collections import defaultdict
 
+
 class RecommenderMetrics:
+
+    def __init__(self):
+        pass
 
     def MAE(predictions):
         return accuracy.mae(predictions, verbose=False)
@@ -14,9 +17,8 @@ class RecommenderMetrics:
     def GetTopN(predictions, n=10, minimumRating=4.0):
         topN = defaultdict(list)
 
-
         for userID, movieID, actualRating, estimatedRating, _ in predictions:
-            if (estimatedRating >= minimumRating):
+            if estimatedRating >= minimumRating:
                 topN[int(userID)].append((int(movieID), estimatedRating))
 
         for userID, ratings in topN.items():
@@ -36,10 +38,10 @@ class RecommenderMetrics:
             # Is it in the predicted top 10 for this user?
             hit = False
             for movieID, predictedRating in topNPredicted[int(userID)]:
-                if (int(leftOutMovieID) == int(movieID)):
+                if int(leftOutMovieID) == int(movieID):
                     hit = True
                     break
-            if (hit) :
+            if hit:
                 hits += 1
 
             total += 1
@@ -54,11 +56,11 @@ class RecommenderMetrics:
         # For each left-out rating
         for userID, leftOutMovieID, actualRating, estimatedRating, _ in leftOutPredictions:
             # Only look at ability to recommend things the users actually liked...
-            if (actualRating >= ratingCutoff):
+            if actualRating >= ratingCutoff:
                 # Is it in the predicted top 10 for this user?
                 hit = False
                 for movieID, predictedRating in topNPredicted[int(userID)]:
-                    if (int(leftOutMovieID) == movieID):
+                    if int(leftOutMovieID) == movieID:
                         hit = True
                         break
                 if (hit) :
@@ -78,10 +80,10 @@ class RecommenderMetrics:
             # Is it in the predicted top N for this user?
             hit = False
             for movieID, predictedRating in topNPredicted[int(userID)]:
-                if (int(leftOutMovieID) == movieID):
+                if int(leftOutMovieID) == movieID:
                     hit = True
                     break
-            if (hit) :
+            if hit:
                 hits[actualRating] += 1
 
             total[actualRating] += 1
@@ -100,10 +102,10 @@ class RecommenderMetrics:
             rank = 0
             for movieID, predictedRating in topNPredicted[int(userID)]:
                 rank = rank + 1
-                if (int(leftOutMovieID) == movieID):
+                if int(leftOutMovieID) == movieID:
                     hitRank = rank
                     break
-            if (hitRank > 0) :
+            if hitRank > 0:
                 summation += 1.0 / hitRank
 
             total += 1
@@ -116,10 +118,10 @@ class RecommenderMetrics:
         for userID in topNPredicted.keys():
             hit = False
             for movieID, predictedRating in topNPredicted[userID]:
-                if (predictedRating >= ratingThreshold):
+                if predictedRating >= ratingThreshold:
                     hit = True
                     break
-            if (hit):
+            if hit:
                 hits += 1
 
         return hits / numUsers
@@ -140,7 +142,7 @@ class RecommenderMetrics:
                 n += 1
 
         S = total / n
-        return (1-S)
+        return 1 - S
 
     def Novelty(topNPredicted, rankings):
         n = 0

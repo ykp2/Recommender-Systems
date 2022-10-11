@@ -1,14 +1,8 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu May  3 10:22:34 2018
-
-@author: Frank
-"""
 from EvaluationData import EvaluationData
 from EvaluatedAlgorithm import EvaluatedAlgorithm
 
+
 class Evaluator:
-    
     algorithms = []
     
     def __init__(self, dataset, rankings):
@@ -28,7 +22,7 @@ class Evaluator:
         # Print results
         print("\n")
         
-        if (doTopN):
+        if doTopN:
             print("{:<10} {:<10} {:<10} {:<10} {:<10} {:<10} {:<10} {:<10} {:<10}".format(
                     "Algorithm", "RMSE", "MAE", "HR", "cHR", "ARHR", "Coverage", "Diversity", "Novelty"))
             for (name, metrics) in results.items():
@@ -43,7 +37,8 @@ class Evaluator:
         print("\nLegend:\n")
         print("RMSE:      Root Mean Squared Error. Lower values mean better accuracy.")
         print("MAE:       Mean Absolute Error. Lower values mean better accuracy.")
-        if (doTopN):
+
+        if doTopN:
             print("HR:        Hit Rate; how often we are able to recommend a left-out rating. Higher is better.")
             print("cHR:       Cumulative Hit Rate; hit rate, confined to ratings above a certain threshold. Higher is better.")
             print("ARHR:      Average Reciprocal Hit Rank - Hit rate that takes the ranking into account. Higher is better." )
@@ -67,7 +62,6 @@ class Evaluator:
             predictions = algo.GetAlgorithm().test(testSet)
             
             recommendations = []
-            
             print ("\nWe recommend:")
             for userID, movieID, actualRating, estimatedRating, _ in predictions:
                 intMovieID = int(movieID)
@@ -77,9 +71,3 @@ class Evaluator:
             
             for ratings in recommendations[:10]:
                 print(ml.getMovieName(ratings[0]), ratings[1])
-                
-
-            
-            
-    
-    

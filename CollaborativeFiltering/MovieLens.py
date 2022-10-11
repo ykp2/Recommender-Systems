@@ -5,11 +5,14 @@ import re
 
 from surprise import Dataset
 from surprise import Reader
-
 from collections import defaultdict
 import numpy as np
 
+
 class MovieLens:
+
+    def __init__(self):
+        pass
 
     movieID_to_name = {}
     name_to_movieID = {}
@@ -30,13 +33,13 @@ class MovieLens:
         ratingsDataset = Dataset.load_from_file(self.ratingsPath, reader=reader)
 
         with open(self.moviesPath, newline='', encoding='ISO-8859-1') as csvfile:
-                movieReader = csv.reader(csvfile)
-                next(movieReader)  #Skip header line
-                for row in movieReader:
-                    movieID = int(row[0])
-                    movieName = row[1]
-                    self.movieID_to_name[movieID] = movieName
-                    self.name_to_movieID[movieName] = movieID
+            movieReader = csv.reader(csvfile)
+            next(movieReader)  # Skip header line
+            for row in movieReader:
+                movieID = int(row[0])
+                movieName = row[1]
+                self.movieID_to_name[movieID] = movieName
+                self.name_to_movieID[movieName] = movieID
 
         return ratingsDataset
 
@@ -48,12 +51,12 @@ class MovieLens:
             next(ratingReader)
             for row in ratingReader:
                 userID = int(row[0])
-                if (user == userID):
+                if user == userID:
                     movieID = int(row[1])
                     rating = float(row[2])
                     userRatings.append((movieID, rating))
                     hitUser = True
-                if (hitUser and (user != userID)):
+                if hitUser and (user != userID):
                     break
 
         return userRatings
@@ -79,7 +82,7 @@ class MovieLens:
         maxGenreID = 0
         with open(self.moviesPath, newline='', encoding='ISO-8859-1') as csvfile:
             movieReader = csv.reader(csvfile)
-            next(movieReader)  #Skip header line
+            next(movieReader)  # Skip header line
             for row in movieReader:
                 movieID = int(row[0])
                 genreList = row[2].split('|')
@@ -116,24 +119,6 @@ class MovieLens:
                 if year:
                     years[movieID] = int(year)
         return years
-    
-    def getMiseEnScene(self):
-        mes = defaultdict(list)
-        with open("LLVisualFeatures13K_Log.csv", newline='') as csvfile:
-            mesReader = csv.reader(csvfile)
-            next(mesReader)
-            for row in mesReader:
-                movieID = int(row[0])
-                avgShotLength = float(row[1])
-                meanColorVariance = float(row[2])
-                stddevColorVariance = float(row[3])
-                meanMotion = float(row[4])
-                stddevMotion = float(row[5])
-                meanLightingKey = float(row[6])
-                numShots = float(row[7])
-                mes[movieID] = [avgShotLength, meanColorVariance, stddevColorVariance,
-                   meanMotion, stddevMotion, meanLightingKey, numShots]
-        return mes
     
     def getMovieName(self, movieID):
         if movieID in self.movieID_to_name:

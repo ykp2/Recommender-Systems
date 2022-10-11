@@ -1,12 +1,7 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu May  3 10:48:02 2018
-
-@author: Frank
-"""
 from surprise.model_selection import train_test_split
 from surprise.model_selection import LeaveOneOut
 from surprise import KNNBaseline
+
 
 class EvaluationData:
     
@@ -14,15 +9,15 @@ class EvaluationData:
         
         self.rankings = popularityRankings
         
-        #Build a full training set for evaluating overall properties
+        # Build a full training set for evaluating overall properties
         self.fullTrainSet = data.build_full_trainset()
         self.fullAntiTestSet = self.fullTrainSet.build_anti_testset()
         
-        #Build a 75/25 train/test split for measuring accuracy
+        # Build a 75/25 train/test split for measuring accuracy
         self.trainSet, self.testSet = train_test_split(data, test_size=.25, random_state=1)
         
-        #Build a "leave one out" train/test split for evaluating top-N recommenders
-        #And build an anti-test-set for building predictions
+        # Build a "leave one out" train/test split for evaluating top-N recommenders
+        # And build an anti-test-set for building predictions
         LOOCV = LeaveOneOut(n_splits=1, random_state=1)
         for train, test in LOOCV.split(data):
             self.LOOCVTrain = train
@@ -30,7 +25,7 @@ class EvaluationData:
             
         self.LOOCVAntiTestSet = self.LOOCVTrain.build_anti_testset()
         
-        #Compute similarty matrix between items so we can measure diversity
+        # Compute similarly matrix between items so we can measure diversity
         sim_options = {'name': 'cosine', 'user_based': False}
         self.simsAlgo = KNNBaseline(sim_options=sim_options)
         self.simsAlgo.fit(self.fullTrainSet)

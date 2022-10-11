@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed May  9 10:10:04 2018
-
-@author: Frank
-"""
-
 from MovieLens import MovieLens
 from surprise import KNNBasic
 import heapq
@@ -35,8 +28,8 @@ similarityRow = simsMatrix[testUserInnerID]
 
 similarUsers = []
 for innerID, score in enumerate(similarityRow):
-    if (innerID != testUserInnerID):
-        similarUsers.append( (innerID, score) )
+    if innerID != testUserInnerID:
+        similarUsers.append((innerID, score))
 
 kNeighbors = heapq.nlargest(k, similarUsers, key=lambda t: t[1])
 
@@ -57,12 +50,9 @@ for itemID, rating in trainSet.ur[testUserInnerID]:
 # Get top-rated items from similar users:
 pos = 0
 for itemID, ratingSum in sorted(candidates.items(), key=itemgetter(1), reverse=True):
-    if not itemID in watched:
+    if itemID not in watched:
         movieID = trainSet.to_raw_iid(itemID)
         print(ml.getMovieName(int(movieID)), ratingSum)
         pos += 1
-        if (pos > 10):
+        if pos > 10:
             break
-
-
-

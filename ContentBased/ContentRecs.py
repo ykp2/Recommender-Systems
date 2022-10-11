@@ -1,11 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Fri May  4 16:25:39 2018
-
-@author: Frank
-"""
-
-
 from MovieLens import MovieLens
 from ContentKNNAlgorithm import ContentKNNAlgorithm
 from Evaluator import Evaluator
@@ -14,13 +6,15 @@ from surprise import NormalPredictor
 import random
 import numpy as np
 
+
 def LoadMovieLensData():
-    ml = MovieLens()
+    ml1 = MovieLens()
     print("Loading movie ratings...")
-    data = ml.loadMovieLensLatestSmall()
+    data1 = ml1.loadMovieLensLatestSmall()
     print("\nComputing movie popularity ranks so we can measure novelty later...")
-    rankings = ml.getPopularityRanks()
-    return (ml, data, rankings)
+    rankings1 = ml1.getPopularityRanks()
+    return ml1, data1, rankings1
+
 
 np.random.seed(0)
 random.seed(0)
@@ -41,5 +35,3 @@ evaluator.AddAlgorithm(Random, "Random")
 evaluator.Evaluate(False)
 
 evaluator.SampleTopNRecs(ml)
-
-
