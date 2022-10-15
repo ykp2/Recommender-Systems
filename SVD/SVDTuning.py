@@ -1,3 +1,8 @@
+"""
+Implements Grid-Search on SVD algorithm for hyperparameter tuning and
+prints top-N recommendations for a test user
+"""
+
 from MovieLens import MovieLens
 from surprise import SVD
 from surprise import NormalPredictor
@@ -50,7 +55,6 @@ evaluator.AddAlgorithm(SVDUntuned, "SVD - Untuned")
 Random = NormalPredictor()
 evaluator.AddAlgorithm(Random, "Random")
 
-# Fight!
 evaluator.Evaluate(False)
 
 evaluator.SampleTopNRecs(ml)

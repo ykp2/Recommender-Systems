@@ -6,6 +6,11 @@ from surprise import KNNBaseline
 class EvaluationData:
 
     def __init__(self, data, popularityRankings):
+        """
+        Instantiates an object of EvaluationData class
+        :param data: dataframe of ratings for all items
+        :param popularityRankings: popularity rankings of items
+        """
         self.rankings = popularityRankings
 
         # Build a full training set for evaluating overall properties
@@ -36,13 +41,17 @@ class EvaluationData:
         return self.fullAntiTestSet
 
     def GetAntiTestSetForUser(self, testSubject):
+        """
+        Get list of items not rated by user
+        :param testSubject: User ID
+        :return: List of items not rated by user
+        """
         trainset = self.fullTrainSet
         fill = trainset.global_mean
         anti_testset = []
         u = trainset.to_inner_uid(str(testSubject))
         user_items = set([j for (j, _) in trainset.ur[u]])
-        anti_testset += [(trainset.to_raw_uid(u), trainset.to_raw_iid(i), fill) for
-                         i in trainset.all_items() if
+        anti_testset += [(trainset.to_raw_uid(u), trainset.to_raw_iid(i), fill) for i in trainset.all_items() if
                          i not in user_items]
         return anti_testset
 

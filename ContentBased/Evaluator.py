@@ -6,6 +6,11 @@ class Evaluator:
     algorithms = []
 
     def __init__(self, dataset, rankings):
+        """
+        Create an object of Evaluator class
+        :param dataframe dataset: dataframe of item ratings
+        :param dict rankings: popularity rankings of items
+        """
         ed = EvaluationData(dataset, rankings)
         self.dataset = ed
 
@@ -14,6 +19,11 @@ class Evaluator:
         self.algorithms.append(alg)
 
     def Evaluate(self, doTopN):
+        """
+        Evaluates and prints performance metrics for a list of algorithms
+        :param bool doTopN: True if algorithms have to be evaluated on top-N recommendations
+        :return: None and prints evaluation results to output
+        """
         results = {}
         for algorithm in self.algorithms:
             print("Evaluating ", algorithm.GetName(), "...")
@@ -51,7 +61,7 @@ class Evaluator:
             print("           for a given user. Higher means more diverse.")
             print("Novelty:   Average popularity rank of recommended items. Higher means more novel.")
 
-    def SampleTopNRecs(self, ml, testSubject=85, k=10):
+    def SampleTopNRecs(self, ml, testSubject=85):
 
         for algo in self.algorithms:
             print("\nUsing recommender ", algo.GetName())
@@ -66,7 +76,7 @@ class Evaluator:
             predictions = algo.GetAlgorithm().test(testSet)
 
             recommendations = []
-            print ("\nWe recommend:")
+            print("\nWe recommend:")
             for userID, movieID, actualRating, estimatedRating, _ in predictions:
                 intMovieID = int(movieID)
                 recommendations.append((intMovieID, estimatedRating))

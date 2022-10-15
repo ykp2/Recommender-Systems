@@ -8,7 +8,8 @@ import heapq
 
 class ContentKNNAlgorithm(AlgoBase):
 
-    def __init__(self, k=40, sim_options={}):
+    def __init__(self, k=40):
+        """Create an instance of ContentKNNAlgorithm that inherits from AlgoBase class from Surprise library"""
         AlgoBase.__init__(self)
         self.k = k
         # Compute genre distance for every movie combination as a 2x2 matrix
@@ -38,8 +39,16 @@ class ContentKNNAlgorithm(AlgoBase):
         print("...done.")
                 
         return self
-    
-    def computeGenreSimilarity(self, movie1, movie2, genres):
+
+    @staticmethod
+    def computeGenreSimilarity(movie1, movie2, genres):
+        """
+        Computes the similarity score between 2 movies based on their genre
+        :param movie1: movie 1 ID
+        :param movie2: movie 2 ID
+        :param dict genres: Dictionary of genre of movies
+        :return float: value of similarity score of movies
+        """
         genres1 = genres[movie1]
         genres2 = genres[movie2]
         sumxx, sumxy, sumyy = 0, 0, 0
@@ -51,13 +60,27 @@ class ContentKNNAlgorithm(AlgoBase):
             sumxy += x * y
         
         return sumxy/math.sqrt(sumxx*sumyy)
-    
-    def computeYearSimilarity(self, movie1, movie2, years):
+
+    @staticmethod
+    def computeYearSimilarity(movie1, movie2, years):
+        """
+        Computes the similarity score between 2 movies based on their release year
+        :param movie1: movie 1 ID
+        :param movie2: movie 2 ID
+        :param dict years: Dictionary of years of movie release
+        :return float: value of similarity score of movies
+        """
         diff = abs(years[movie1] - years[movie2])
         sim = math.exp(-diff / 10.0)
         return sim
 
     def estimate(self, u, i):
+        """
+        Estimates the rating for any item-user pair
+        :param u: User ID
+        :param i: Item ID
+        :return: Predicted rating for given item for given user
+        """
 
         if not (self.trainset.knows_user(u) and self.trainset.knows_item(i)):
             raise PredictionImpossible('User and/or item is unknown.')

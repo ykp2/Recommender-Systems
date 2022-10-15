@@ -2,12 +2,21 @@ from RecommenderMetrics import RecommenderMetrics
 
 
 class EvaluatedAlgorithm:
-    
+
     def __init__(self, algorithm, name):
         self.algorithm = algorithm
         self.name = name
         
     def Evaluate(self, evaluationData, doTopN, n=10, verbose=True):
+        """
+        Evaluate performance of algorithm and calculate metrics
+
+        :param evaluationData: instance of evaluationData
+        :param bool doTopN: to perform evaluation on top-N recommendations
+        :param int n: number of recommendations to consider for evaluation
+        :param bool verbose: to print output for description
+        :return dict: evaluated metrics
+        """
         metrics = {}
         # Compute accuracy
         if verbose:

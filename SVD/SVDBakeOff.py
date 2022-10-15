@@ -1,3 +1,8 @@
+"""
+Implements SVD & SVD++ algorithms and
+prints top-N recommendations for a test user
+"""
+
 from MovieLens import MovieLens
 from surprise import SVD, SVDpp
 from surprise import NormalPredictor
@@ -37,7 +42,6 @@ evaluator.AddAlgorithm(SVDPlusPlus, "SVD++")
 Random = NormalPredictor()
 evaluator.AddAlgorithm(Random, "Random")
 
-# Fight!
 evaluator.Evaluate(False)
 
 evaluator.SampleTopNRecs(ml)

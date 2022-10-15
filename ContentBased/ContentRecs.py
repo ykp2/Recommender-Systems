@@ -1,3 +1,8 @@
+"""
+Implements Content-based Filtering algorithm and
+prints top-N recommendations for a test user
+"""
+
 from MovieLens import MovieLens
 from ContentKNNAlgorithm import ContentKNNAlgorithm
 from Evaluator import Evaluator

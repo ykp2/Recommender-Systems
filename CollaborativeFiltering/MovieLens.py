@@ -6,12 +6,14 @@ import re
 from surprise import Dataset
 from surprise import Reader
 from collections import defaultdict
-import numpy as np
 
 
 class MovieLens:
 
     def __init__(self):
+        """
+        Create an object of MovieLens class
+        """
         pass
 
     movieID_to_name = {}
@@ -20,11 +22,13 @@ class MovieLens:
     moviesPath = '../ml-latest-small/movies.csv'
     
     def loadMovieLensLatestSmall(self):
-
+        """
+        Loads movie ratings for 100k movies and updates mappings from movie name to ID
+        :return: dataframe of movie ratings
+        """
         # Look for files relative to the directory we are running from
         os.chdir(os.path.dirname(sys.argv[0]))
 
-        ratingsDataset = 0
         self.movieID_to_name = {}
         self.name_to_movieID = {}
 

@@ -4,16 +4,22 @@ from collections import defaultdict
 
 
 class RecommenderMetrics:
+    """
+    Contains functions to calculate performance metrics for model evaluation
+    """
 
     def __init__(self):
         pass
 
+    @staticmethod
     def MAE(predictions):
         return accuracy.mae(predictions, verbose=False)
 
+    @staticmethod
     def RMSE(predictions):
         return accuracy.rmse(predictions, verbose=False)
 
+    @staticmethod
     def GetTopN(predictions, n=10, minimumRating=4.0):
         topN = defaultdict(list)
 
@@ -27,6 +33,7 @@ class RecommenderMetrics:
 
         return topN
 
+    @staticmethod
     def HitRate(topNPredicted, leftOutPredictions):
         hits = 0
         total = 0
@@ -47,8 +54,9 @@ class RecommenderMetrics:
             total += 1
 
         # Compute overall precision
-        return hits/total
+        return hits / total
 
+    @staticmethod
     def CumulativeHitRate(topNPredicted, leftOutPredictions, ratingCutoff=0):
         hits = 0
         total = 0
@@ -63,14 +71,15 @@ class RecommenderMetrics:
                     if int(leftOutMovieID) == movieID:
                         hit = True
                         break
-                if (hit) :
+                if hit:
                     hits += 1
 
                 total += 1
 
         # Compute overall precision
-        return hits/total
+        return hits / total
 
+    @staticmethod
     def RatingHitRate(topNPredicted, leftOutPredictions):
         hits = defaultdict(float)
         total = defaultdict(float)
@@ -90,8 +99,9 @@ class RecommenderMetrics:
 
         # Compute overall precision
         for rating in sorted(hits.keys()):
-            print (rating, hits[rating] / total[rating])
+            print(rating, hits[rating] / total[rating])
 
+    @staticmethod
     def AverageReciprocalHitRank(topNPredicted, leftOutPredictions):
         summation = 0
         total = 0
@@ -113,6 +123,7 @@ class RecommenderMetrics:
         return summation / total
 
     # What percentage of users have at least one "good" recommendation
+    @staticmethod
     def UserCoverage(topNPredicted, numUsers, ratingThreshold=0):
         hits = 0
         for userID in topNPredicted.keys():
@@ -126,6 +137,7 @@ class RecommenderMetrics:
 
         return hits / numUsers
 
+    @staticmethod
     def Diversity(topNPredicted, simsAlgo):
         n = 0
         total = 0
@@ -144,6 +156,7 @@ class RecommenderMetrics:
         S = total / n
         return 1 - S
 
+    @staticmethod
     def Novelty(topNPredicted, rankings):
         n = 0
         total = 0

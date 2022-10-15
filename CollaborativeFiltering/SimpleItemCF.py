@@ -1,3 +1,8 @@
+"""
+Implements Item-based Collaborative Filtering algorithm and
+prints top-N recommendations for a test user
+"""
+
 from MovieLens import MovieLens
 from surprise import KNNBasic
 import heapq
